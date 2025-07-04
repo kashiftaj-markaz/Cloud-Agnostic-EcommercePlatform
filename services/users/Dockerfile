@@ -1,18 +1,25 @@
-# 1. Base image
+# Use official Python base image
 FROM python:3.11-slim
 
-# 2. Set working directory
+# Set environment variables if needed (can also use .env)
+ENV PYTHONUNBUFFERED=1
+
+# Set working directory
 WORKDIR /app
 
-# 3. Copy source code
-COPY ./app /app/app
+# Copy requirements first (leverages Docker layer caching)
 COPY requirements.txt .
 
-# 4. Install dependencies
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 5. Expose the FastAPI default port
+# Copy rest of the application code
+COPY ./app ./app
+
+
+
+# Expose the port FastAPI will run on
 EXPOSE 8000
 
-# 6. Run the FastAPI app using uvicorn
+# Command to run the application
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

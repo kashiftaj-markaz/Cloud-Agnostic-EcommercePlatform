@@ -5,3 +5,4 @@ aiomysql
 python-dotenv
 passlib[bcrypt]
 pydantic[email]
+cryptography
