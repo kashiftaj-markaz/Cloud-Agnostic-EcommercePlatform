@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-service
+  template:
+    metadata:
+      labels:
+        app: users-service
+    spec:
+      containers:
+        - name: users-service
+          image: kashiftaj/users-service:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_USER
+              value: "serviceusers"
+            - name: DB_PASSWORD
+              value: "Usersservice"
+            - name: DB_NAME
+              value: "users_db"
+            - name: DB_HOST
+              value: "mysql"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  selector:
+    app: users-service
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

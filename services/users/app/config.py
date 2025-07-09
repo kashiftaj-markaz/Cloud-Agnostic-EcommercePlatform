@@ -6,7 +6,7 @@ load_dotenv()
 
 DB_USER = os.getenv("DB_USER", "serviceusers")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "Usersservice")
-DB_HOST = os.getenv("DB_HOST", "host.docker.internal")
+DB_HOST = os.getenv("DB_HOST", "mysql")
 DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME", "users_db")
 
