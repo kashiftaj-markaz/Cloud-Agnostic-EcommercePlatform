@@ -15,33 +15,34 @@ spec:
       containers:
         - name: mysql
           image: mysql:8
-          env:
-            - name: MYSQL_DATABASE
-              value: "users_db"
-            - name: MYSQL_USER
-              value: "serviceusers"
-            - name: MYSQL_PASSWORD
-              value: "Usersservice"
-            - name: MYSQL_ROOT_PASSWORD
-              value: "Usersservice"
           ports:
             - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD    
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef: 
+                  name: mysql-secret
+                  key: MYSQL_DATABASE
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
       volumes:
         - name: mysql-persistent-storage
-          emptyDir: {}  # use persistentVolumeClaim in production
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-spec:
-  selector:
-    app: mysql
-  ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
-  clusterIP: None  # Headless service (optional)
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  

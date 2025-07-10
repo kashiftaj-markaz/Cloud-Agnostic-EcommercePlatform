@@ -18,14 +18,35 @@ spec:
           ports:
             - containerPort: 8000
           env:
-            - name: DB_USER
-              value: "serviceusers"
-            - name: DB_PASSWORD
-              value: "Usersservice"
-            - name: DB_NAME
-              value: "users_db"
-            - name: DB_HOST
-              value: "mysql"
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_DATABASE
+
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_HOST
+
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_PORT
 ---
 apiVersion: v1
 kind: Service
