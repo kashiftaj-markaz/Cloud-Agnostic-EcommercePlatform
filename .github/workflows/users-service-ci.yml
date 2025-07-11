@@ -53,13 +53,16 @@ jobs:
 
       - name: Install gke-gcloud-auth-plugin
         run: |
-          gcloud components install gke-gcloud-auth-plugin
+          gcloud components install gke-gcloud-auth-plugin --quiet
+          echo "$(gcloud --format="value(bin_dir)")" >> $GITHUB_PATH
           echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
 
       - name: Authenticate to GKE
         run: gcloud container clusters get-credentials ecommerce-cluster --zone asia-east1-a --project ornate-hangar-465306-u9
 
       - name: Update Kubernetes Deployment
-        run: kubectl set image deployment/users-service users-service=kashiftaj/users-service:latest
+        run: |
+          export PATH="$(gcloud --format="value(bin_dir)"):$PATH"
+          kubectl set image deployment/users-service users-service=kashiftaj/users-service:latest
       
         
