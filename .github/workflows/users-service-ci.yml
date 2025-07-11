@@ -54,8 +54,9 @@ jobs:
       - name: Authenticate to GKE
         run: gcloud container clusters get-credentials ecommerce-cluster --zone asia-east1-a --project ornate-hangar-465306-u9
 
-      - name: Deploy to GKE
-        run: |
-          kubectl set image deployment/users-service users-service=kashiftaj/users-service:latest
-    
+      - name: Update Kubernetes Deployment
+        env:
+          USE_GKE_GCLOUD_AUTH_PLUGIN: "false"
+        run: kubectl set image deployment/users-service users-service=kashiftaj/users-service:latest
+      
         
