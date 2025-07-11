@@ -50,6 +50,7 @@ jobs:
     
       - name: Authenticate to GKE
         run: gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --zone ${{ secrets.GKE_ZONE }} --project ${{ secrets.GKE_PROJECT }}
+        
     
       - name: Deploy to GKE
         run: |
