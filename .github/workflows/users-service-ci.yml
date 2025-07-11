@@ -1,6 +1,7 @@
 name: CI for Users Microservice
 
 on:
+  workflow_dispatch: 
   push:
     paths:
       - 'services/users/**'
