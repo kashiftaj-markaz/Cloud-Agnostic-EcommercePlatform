@@ -1,3 +1,4 @@
+print("🚀 CI Test Triggered!")
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from .routes import router as user_router
