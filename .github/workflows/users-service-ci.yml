@@ -50,18 +50,12 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ornate-hangar-465306-u9
+          install_components: gke-gcloud-auth-plugin
 
-      - name: Install Google Cloud SDK and gke-gcloud-auth-plugin
-        run: |
-          curl -sSL https://sdk.cloud.google.com | bash
-          echo "$HOME/google-cloud-sdk/bin" >> $GITHUB_PATH
-          $HOME/google-cloud-sdk/bin/gcloud components install gke-gcloud-auth-plugin --quiet
-          echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
-
-      - name: Authenticate to GKE
-        run: $HOME/google-cloud-sdk/bin/gcloud container clusters get-credentials ecommerce-cluster --zone asia-east1-a --project ornate-hangar-465306-u9
+      - name: Get GKE Credentials
+        run: gcloud container clusters get-credentials ecommerce-cluster --zone asia-east1-a --project ornate-hangar-465306-u9
 
       - name: Update Kubernetes Deployment
-        run: $HOME/google-cloud-sdk/bin/kubectl set image deployment/users-service users-service=kashiftaj/users-service:latest
+        run: kubectl set image deployment/users-service users-service=kashiftaj/users-service:latest
       
         
