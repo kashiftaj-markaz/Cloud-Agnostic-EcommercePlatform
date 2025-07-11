@@ -32,4 +32,4 @@ jobs:
           context: ./services/users
           file: ./services/users/Dockerfile
           push: true
-          tags: kashiftaj/users-service:latest
+          tags: kashiftaj/users-service:latest 
