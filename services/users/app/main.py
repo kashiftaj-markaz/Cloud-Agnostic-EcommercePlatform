@@ -22,3 +22,7 @@ default_message = {"message": "User microservice is running"}
 @app.get("/")
 def read_root():
     return default_message
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}

@@ -24,6 +24,18 @@ spec:
             limits:
               cpu:     "500m"
               memory: "256Mi"  
+          readinessProbe:
+            httpGet:
+              path: /health  # Or /health if you have one
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health  # Or /health if you have one
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20     
           env:
             - name: MYSQL_USER
               valueFrom:
@@ -62,7 +74,7 @@ metadata:
 spec:
   selector:
     app: users-service
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 80
