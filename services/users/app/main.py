@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from .routes import router as user_router
 from .database import Base, engine
 from . import models
+from prometheus_fastapi_instrumentator import Instrumentator
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,6 +13,8 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title="Users Service", lifespan=lifespan)
+
+Instrumentator().instrument(app).expose(app)
 
 # Include user-related routes
 app.include_router(user_router, prefix="/users", tags=["users"])
