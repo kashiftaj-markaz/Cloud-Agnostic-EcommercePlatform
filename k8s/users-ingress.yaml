@@ -10,7 +10,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /users/?(.*)
+          - path: /?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
